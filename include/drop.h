@@ -7,8 +7,6 @@
 class Drop
 {
 public:
-	enum Distance { close, near, far, max_distance };
-
 	Drop();
 
 	void draw(ftxui::Screen& screen) const;
@@ -18,6 +16,8 @@ public:
 	int getY() const { return m_y; }
 
 private:
+	enum Distance { close, near, far, max_distance };
+
 	void reset();
 	bool hasFallen() const;
 
