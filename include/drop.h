@@ -1,21 +1,25 @@
 #ifndef DROP_H
 #define DROP_H
 
+#include <ftxui/screen/screen.hpp>
 #include <ftxui/screen/color.hpp>
 
 class Drop
 {
 public:
+	enum Distance { close, near, far, max_distance };
+
 	Drop();
 
-	void draw(/*ftxui::Screen& screen*/) const;		// Draw 'm_character' to the terminal
-	void fall();									// Increment 'm_y' by a given 'm_speed'
+	void draw(ftxui::Screen& screen) const;
+	void fall();
+
+	int getX() const { return m_x; }
+	int getY() const { return m_y; }
 
 private:
-	enum Distance { close, near, far, max_distance };
-	
-	void reset();									// Reset the drop's attributes
-	bool hasFallen() const;							// When 'm_y' is equal to 'Terminal::width'
+	void reset();
+	bool hasFallen() const;
 
 private:
 	int m_x {};

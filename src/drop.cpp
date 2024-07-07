@@ -20,9 +20,11 @@ Drop::Drop()
 	reset();
 }
 
-void Drop::draw() const
+void Drop::draw(ftxui::Screen& screen) const
 {
-
+	// Modify the pixel at a given screen coordinate 
+	screen.PixelAt(m_x, m_y).character = m_character;
+	screen.PixelAt(m_x, m_y).foreground_color = m_color;
 }
 
 void Drop::fall()
@@ -44,5 +46,7 @@ void Drop::reset()
 bool Drop::hasFallen() const
 {
 
+
+	return false;
 }
 
