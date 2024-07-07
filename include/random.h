@@ -16,14 +16,11 @@ namespace Random
 
 	inline std::mt19937 mt {generate()};
 
-	// Generates a random value between 
-	// two values of the same type 
-	template <typename T>
-	T get(T min, T max)
+	// Generates a random value between two integers (inclusive)
+	int get(int min, int max)
 	{
-		return std::uniform_int_distribution<T> {min, max} (mt);
+		return std::uniform_int_distribution {min, max} (mt);
 	}
-
 }
 
 #endif
