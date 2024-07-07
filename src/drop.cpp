@@ -5,10 +5,8 @@
 
 namespace Constants
 {
-	using enum Drop::Distance;
 	using ftxui::Color;
 
-	constexpr std::array distances {close, near, far};
 	const std::array colors {Color::White, Color::GrayLight, Color::GrayDark};
 	constexpr std::array characters {'|', ':', '.'};
 	constexpr int minSpeed {1};
@@ -29,7 +27,10 @@ void Drop::draw(ftxui::Screen& screen) const
 
 void Drop::fall()
 {
-
+	if (hasFallen())
+		reset();
+	else
+		m_y += m_speed;
 }
 
 void Drop::reset()
@@ -45,8 +46,7 @@ void Drop::reset()
 
 bool Drop::hasFallen() const
 {
-
-
-	return false;
+	// The terminal's current height threshold has been exceeded
+	return (m_y > ftxui::Terminal::Size().dimy ? true : false);
 }
 
