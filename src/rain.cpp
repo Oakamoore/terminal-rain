@@ -30,7 +30,11 @@ void Rain::resize(int screenWidth)
 	}
 }
 
-void Rain::fall([[maybe_unused]] ftxui::Screen& screen)
+void Rain::fall(ftxui::Screen& screen)
 {
-	
+	for (auto& drop : m_drops)
+	{
+		drop->draw(screen);
+		drop->fall();
+	}
 }
