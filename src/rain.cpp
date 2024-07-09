@@ -15,11 +15,13 @@ void Rain::resize(int screenWidth)
 	// or 'm_drops' is currently empty 
 	if (m_drops.size() < numDrops)
 	{
+		// Adds as many drops as are needed
 		for (auto i {m_drops.size()}; i != numDrops; ++i)
 			m_drops.emplace_back(std::make_unique<Drop>()); 
 	}
 	else if (m_drops.size() > numDrops)
 	{
+		// Removes as many drops as are needed
 		m_drops.resize(numDrops);
 	}
 }
