@@ -9,7 +9,7 @@
 class Rain
 {
 public:
-	explicit Rain(int screenWidth);
+	Rain() = default;
 
 	void resize(int screenWidth);
 	void fall(ftxui::Screen& screen);

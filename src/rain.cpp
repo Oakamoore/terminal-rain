@@ -1,10 +1,4 @@
 #include "rain.h"
-#include <ftxui/screen/terminal.hpp>
-
-Rain::Rain(int screenWidth)
-{
-	resize(screenWidth);
-}
 
 void Rain::resize(int screenWidth)
 {
