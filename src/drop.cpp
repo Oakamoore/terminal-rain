@@ -46,7 +46,7 @@ void Drop::reset()
 
 bool Drop::hasFallen() const
 {
-	// The terminal's current height threshold has been exceeded
+	// The terminal's current height has been exceeded
 	return (m_y > ftxui::Terminal::Size().dimy ? true : false);
 }
 

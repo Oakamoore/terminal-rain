@@ -17,7 +17,7 @@ namespace Random
 	inline std::mt19937 mt {generate()};
 
 	// Generates a random value between two integers (inclusive)
-	int get(int min, int max)
+	inline int get(int min, int max)
 	{
 		return std::uniform_int_distribution {min, max} (mt);
 	}
