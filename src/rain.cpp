@@ -19,10 +19,13 @@ void Rain::resize(int screenWidth)
 		for (auto i {m_drops.size()}; i != numDrops; ++i)
 			m_drops.emplace_back(std::make_unique<Drop>()); 
 	}
-	else if (m_drops.size() > numDrops)
+	else if (m_drops.size() > numDrops) // Screen width has decreased
 	{
-		// Removes as many drops as are needed
-		m_drops.resize(numDrops);
+		// Destroys any drops that are out of bounds
+		std::erase_if(m_drops, [screenWidth] (const auto& drop)
+		{
+			return drop->getX() > screenWidth;
+		});
 	}
 }
 
