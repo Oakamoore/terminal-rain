@@ -4,10 +4,10 @@
 
 ## Overview 
 
-A terminal based rain visualisation, inspired by *nkleemann's* [implementation](https://github.com/nkleemann/ascii-rain). 
+A terminal based rain visualisation, inspired by *nkleemann's* [implementation](https://github.com/nkleemann/ascii-rain) in C. 
 
 <p align="center">
-	<img src="https://github.com/user-attachments/assets/2da4ce8a-3539-40cd-b22a-8bac485474b3">
+	<img src="https://github.com/user-attachments/assets/ff29d010-3487-4202-8ebf-b144b468fe8b">
 </p>
 
 ## Installation
@@ -45,9 +45,12 @@ Press `Escape` or `q` while the program is running to quit.
 
 [![Catch2](https://img.shields.io/badge/Catch2-3.6.0-orange)](https://github.com/catchorg/Catch2/tree/devel)
 
-Once the project is built, navigate to `terminal-rain/build/tests`, locate the testing executable, then run the tests using:
+Once the project is built, navigate to `terminal-rain/build/tests/`, locate the testing executable, then run the tests using:
 
 ```shell
 ./terminal-rain-tests
 ```
 
+## Notes
+
+This program requires a terminal emulator that supports a 16-color palette and ANSI escape codes, to function as expected.  
