@@ -14,7 +14,7 @@ int main()
 	// Uses the primary screen buffer, ensuring that terminal resizes are responsive
 	auto screen {ftxui::ScreenInteractive::FixedSize(ftxui::Terminal::Size().dimx, ftxui::Terminal::Size().dimy)};
 
-	const auto frameDuration {10ms};
+	const auto frameDuration {30ms};
 
 	Rain rain {};
 
