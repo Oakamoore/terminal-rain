@@ -8,16 +8,19 @@
 
 class Rain
 {
+private:
+	using Drops = std::vector<std::unique_ptr<Drop>>;
+
 public:
 	Rain() = default;
 
 	void resize(int screenWidth);
 	void fall(ftxui::Screen& screen);
 
-	const std::vector<std::unique_ptr<Drop>>& getDrops() { return m_drops; }
+	const Drops& getDrops() { return m_drops; }
 
 private:
-	std::vector<std::unique_ptr<Drop>> m_drops {};
+	Drops m_drops {};
 
 };
 
