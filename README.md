@@ -45,7 +45,7 @@ Press `Escape` or `q` while the program is running to quit.
 
 [![Catch2](https://img.shields.io/badge/Catch2-3.6.0-orange)](https://github.com/catchorg/Catch2/tree/devel)
 
-Once the project is built, navigate to `terminal-rain/build/tests/`, locate the testing executable, then run the tests using:
+Once the project is built, navigate to `terminal-rain/build/test/`, locate the testing executable, then run the tests using:
 
 ```shell
 ./terminal-rain-tests
@@ -53,4 +53,4 @@ Once the project is built, navigate to `terminal-rain/build/tests/`, locate the 
 
 ## Notes
 
-This program requires a terminal emulator that supports a 16-color palette and ANSI escape codes, to function as expected.  
+To function as expected, this program requires a terminal emulator that supports a 16-color palette and ANSI escape codes.
