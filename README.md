@@ -45,7 +45,7 @@ Press `Escape` or `q` while the program is running to quit.
 
 [![Catch2](https://img.shields.io/badge/Catch2-3.6.0-orange)](https://github.com/catchorg/Catch2/tree/devel)
 
-Once the project is built, navigate to `terminal-rain/build/test/`, locate the testing executable, then run the tests using:
+Once the project is built, navigate to `terminal-rain/build/tests/`, locate the testing executable, then run the tests using:
 
 ```shell
 ./terminal-rain-tests

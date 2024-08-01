@@ -39,7 +39,7 @@ option(ENABLE_TESTING "Enable tests" ON)
 
 if(ENABLE_TESTING)
 	enable_testing()
-	add_subdirectory(test)
+	add_subdirectory(tests)
 endif()
 
 add_executable(terminal-rain
