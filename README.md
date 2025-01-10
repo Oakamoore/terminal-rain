@@ -10,7 +10,11 @@ A terminal based rain visualisation, inspired by *nkleemann's* [implementation](
 	<img src="https://github.com/user-attachments/assets/ff29d010-3487-4202-8ebf-b144b468fe8b">
 </p>
 
+> A terminal emulator that supports a 16 colour palette and ANSI escape codes is required for this program to function as expected
+
 ## Installation
+
+> A C++20 compatible compiler is required for this program to function as expected
 
 1. Clone this project
 
@@ -34,31 +38,9 @@ cmake -S . -B build
 cmake --build build
 ```
 
-### Specifying a Build Configuration
+A build configuration (`Debug`, `Release` etc.) can also be [specified](https://gist.github.com/Oakamoore/685838c1b4a4c64a008f5461ac9323b5).
 
-Depending on the type of [CMake generator](https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html) being used, a build configuration (`Debug`, `Release` etc.) can be specified as follows:
-
-#### Single Configuration Generator 
-
-```shell
-# Configure a release build
-cmake -S . -B build -D CMAKE_BUILD_TYPE=Release
-
-# Build release binaries
-cmake --build build
-```
-
-#### Multi-Configuration Generator
-
-```shell
-# Configure the build
-cmake -S . -B build 
-
-# Build release binaries
-cmake --build build --config Release
-```
-
-### Disabling Testing
+#### Disabling Testing
 
 To prevent tests from being built, append `-D ENABLE_TESTING=0` to the build configuration command.
 
@@ -81,7 +63,3 @@ Once the project is built, navigate to `terminal-rain/build/tests/`, locate the 
 ```shell
 ./terminal-rain-tests
 ```
-
-## Notes
-
-To function as expected, this program requires a terminal emulator that supports a 16-color palette and ANSI escape codes.
