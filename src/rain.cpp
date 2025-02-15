@@ -1,8 +1,15 @@
 #include "rain.h"
+#include "terminal.h"
+#include <ftxui/screen/terminal.hpp>
+#include <ftxui/component/screen_interactive.hpp>
+#include <ftxui/component/component.hpp>
+#include <ftxui/component/loop.hpp>
+#include <thread>
+#include <chrono>
 
 void Rain::resize(int screenWidth)
 {
-	static constexpr float dropCoefficient {0.75f};
+	constexpr float dropCoefficient {0.75f};
 	
 	int numDrops {static_cast<int>(screenWidth * dropCoefficient)};
 
@@ -26,11 +33,45 @@ void Rain::resize(int screenWidth)
 	}
 }
 
-void Rain::fall(ftxui::Screen& screen)
+void Rain::fall()
 {
-	for (auto& drop : m_drops)
+	// Uses the primary screen buffer, ensuring that terminal resizes are responsive
+	auto screen {ftxui::ScreenInteractive::FixedSize(ftxui::Terminal::Size().dimx, ftxui::Terminal::Size().dimy)};
+
+	// A blank component used to catch input events
+	ftxui::Component component {};
+
+	Terminal::setupInput(screen, component);
+
+	// Set the initial number of drops
+	resize(screen.dimx());
+
+	using namespace std::chrono_literals;
+	const auto frameDuration {30ms};
+
+	ftxui::Loop input {&screen, component};
+
+	while (!input.HasQuitted())
 	{
-		drop->draw(screen);
-		drop->fall();
+		if (Terminal::hasResized(screen))
+		{
+			Terminal::updateScreen(screen);
+
+			// Re-adjust the number of drops 
+			resize(screen.dimx());
+		}
+
+		for (auto& drop : m_drops)
+		{
+			drop->draw(screen);
+			drop->fall();
+		}
+
+		Terminal::printScreen(screen);
+
+		std::this_thread::sleep_for(frameDuration);
+
+		// Process any input events 
+		input.RunOnce();
 	}
 }

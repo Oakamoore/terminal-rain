@@ -15,9 +15,9 @@ public:
 	Rain() = default;
 
 	void resize(int screenWidth);
-	void fall(ftxui::Screen& screen);
+	void fall();
 
-	const Drops& getDrops() { return m_drops; }
+	const Drops& getDrops() const { return m_drops; }
 
 private:
 	Drops m_drops {};
