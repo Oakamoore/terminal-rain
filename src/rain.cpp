@@ -1,11 +1,64 @@
 #include "rain.h"
-#include "terminal.h"
 #include <ftxui/screen/terminal.hpp>
 #include <ftxui/component/screen_interactive.hpp>
 #include <ftxui/component/component.hpp>
 #include <ftxui/component/loop.hpp>
+#include <ftxui/component/event.hpp>
 #include <thread>
 #include <chrono>
+#include <string>
+#include <iostream>
+
+namespace
+{
+	void setupQuitEvent(ftxui::ScreenInteractive& screen, ftxui::Component& component)
+	{
+		component = ftxui::Renderer([] { return ftxui::text(""); });
+
+		// Decorates the component to catch a 'quit' event
+		component |= ftxui::CatchEvent([&] (ftxui::Event event)
+		{
+			if (event == ftxui::Event::Character('q') ||
+				event == ftxui::Event::Escape)
+			{
+				screen.ExitLoopClosure()();
+				return true;
+			}
+
+			return false;
+		});
+	}
+
+	bool hasTerminalResized(const ftxui::Screen& screen)
+	{
+		if (screen.dimx() != ftxui::Terminal::Size().dimx ||
+			screen.dimy() != ftxui::Terminal::Size().dimy)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	void printScreen(ftxui::Screen& screen)
+	{
+		static std::string resetPosition {};
+
+		// Hides the cursor, and resets its position, preventing the terminal from scrolling
+		std::cout << "\033[?25l" << resetPosition << screen.ToString() << std::flush;
+		resetPosition = screen.ResetPosition();
+
+		screen.Clear();
+	}
+
+	void resizeScreen(ftxui::Screen& screen)
+	{
+		// Update the screen to match the terminal's current dimensions
+		screen = ftxui::Screen::Create(ftxui::Dimension::Full(), ftxui::Dimension::Full());
+
+		printScreen(screen);
+	}
+}
 
 void Rain::resize(int screenWidth)
 {
@@ -35,13 +88,14 @@ void Rain::resize(int screenWidth)
 
 void Rain::fall()
 {
-	// Uses the primary screen buffer, ensuring that terminal resizes are responsive
+	// Use the primary screen buffer, ensuring that terminal resizes are responsive
+	// Ensures the initial screen size is equal to the terminal
 	auto screen {ftxui::ScreenInteractive::FixedSize(ftxui::Terminal::Size().dimx, ftxui::Terminal::Size().dimy)};
 
 	// A blank component used to catch input events
 	ftxui::Component component {};
 
-	Terminal::setupInput(screen, component);
+	setupQuitEvent(screen, component);
 
 	// Set the initial number of drops
 	resize(screen.dimx());
@@ -53,9 +107,9 @@ void Rain::fall()
 
 	while (!input.HasQuitted())
 	{
-		if (Terminal::hasResized(screen))
+		if (hasTerminalResized(screen))
 		{
-			Terminal::updateScreen(screen);
+			resizeScreen(screen);
 
 			// Re-adjust the number of drops 
 			resize(screen.dimx());
@@ -67,7 +121,7 @@ void Rain::fall()
 			drop->fall();
 		}
 
-		Terminal::printScreen(screen);
+		printScreen(screen);
 
 		std::this_thread::sleep_for(frameDuration);
 
