@@ -19,6 +19,7 @@ namespace
 		component |= ftxui::CatchEvent([&] (ftxui::Event event)
 		{
 			if (event == ftxui::Event::Character('q') ||
+				event == ftxui::Event::Character('Q') ||
 				event == ftxui::Event::Escape)
 			{
 				screen.ExitLoopClosure()();
@@ -40,23 +41,10 @@ namespace
 		return false;
 	}
 
-	void printScreen(ftxui::Screen& screen)
-	{
-		static std::string resetPosition {};
-
-		// Hides the cursor, and resets its position, preventing the terminal from scrolling
-		std::cout << "\033[?25l" << resetPosition << screen.ToString() << std::flush;
-		resetPosition = screen.ResetPosition();
-
-		screen.Clear();
-	}
-
 	void resizeScreen(ftxui::Screen& screen)
 	{
 		// Update the screen to match the terminal's current dimensions
-		screen = ftxui::Screen::Create(ftxui::Dimension::Full(), ftxui::Dimension::Full());
-
-		printScreen(screen);
+		screen = ftxui::Screen::Create(ftxui::Dimension::Full());
 	}
 }
 
@@ -66,19 +54,17 @@ void Rain::resize(int screenWidth)
 	
 	int numDrops {static_cast<int>(screenWidth * dropCoefficient)};
 
-	// Prevents unnecessary reallocations
+	// Prevent unnecessary reallocations
 	m_drops.reserve(numDrops);
 
-	// The width of the screen has increased, or 'm_drops' is currently empty 
 	if (m_drops.size() < numDrops)
 	{
-		// Adds as many drops as are needed
 		for (auto i {m_drops.size()}; i != numDrops; ++i)
 			m_drops.emplace_back(std::make_unique<Drop>()); 
 	}
 	else if (m_drops.size() > numDrops) 
 	{
-		// Destroys any drops that are out of bounds
+		// Destroy out of bounds drops
 		std::erase_if(m_drops, [screenWidth] (const auto& drop)
 		{
 			return drop->getX() > screenWidth;
@@ -88,11 +74,8 @@ void Rain::resize(int screenWidth)
 
 void Rain::fall()
 {
-	// Use the primary screen buffer, ensuring that terminal resizes are responsive
-	// Ensures the initial screen size is equal to the terminal
-	auto screen {ftxui::ScreenInteractive::FixedSize(ftxui::Terminal::Size().dimx, ftxui::Terminal::Size().dimy)};
-
-	// A blank component used to catch input events
+	// Ensures non-zero initial screen size, and responsive terminal resizes by using the primary screen buffer
+	ftxui::ScreenInteractive screen {ftxui::ScreenInteractive::FixedSize(ftxui::Terminal::Size().dimx, ftxui::Terminal::Size().dimy)};
 	ftxui::Component component {};
 
 	setupQuitEvent(screen, component);
@@ -121,7 +104,7 @@ void Rain::fall()
 			drop->fall();
 		}
 
-		printScreen(screen);
+		screen.RequestAnimationFrame();
 
 		std::this_thread::sleep_for(frameDuration);
 
