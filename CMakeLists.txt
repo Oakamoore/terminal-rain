@@ -23,7 +23,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_library(terminal-rain-lib 
 	src/drop.cpp
 	src/rain.cpp
-	src/terminal.cpp
 )
 
 target_include_directories(terminal-rain-lib
