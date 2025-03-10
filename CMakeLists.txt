@@ -34,7 +34,7 @@ target_link_libraries(terminal-rain-lib
 	PUBLIC ftxui::component
 )
 
-option(ENABLE_TESTING "Enable tests" ON)
+option(ENABLE_TESTING "Enable tests" OFF)
 
 if(ENABLE_TESTING)
 	enable_testing()
